@@ -65,11 +65,21 @@ make dev      # Run dev server
 make migrate  # Generate migration
 ```
 
-## Stack
+## Tech Stack
 
-**Python 3.14** · **FastAPI** · **SQLAlchemy 2.0** (async) · **Pydantic v2**
-**Alembic** · **Taskiq** + Valkey · **Structlog**
-**PostgreSQL 18** · **Valkey 8** · **Docker** · **Ruff** · **pytest**
+![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.138-009688?logo=fastapi&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-v2-E92063?logo=pydantic&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?logo=sqlalchemy&logoColor=white)
+![Alembic](https://img.shields.io/badge/Alembic-1.13-6C757D?logo=alembic&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white)
+![Valkey](https://img.shields.io/badge/Valkey-8-9254DE?logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-✓-2496ED?logo=docker&logoColor=white)
+![Taskiq](https://img.shields.io/badge/Taskiq-0.11-FF6F00)
+![Ruff](https://img.shields.io/badge/Ruff-0.6-D7FF64?logo=ruff&logoColor=black)
+![pytest](https://img.shields.io/badge/pytest-✓-0A9EDC?logo=pytest&logoColor=white)
+![Structlog](https://img.shields.io/badge/Structlog-24.0-4A154B)
+![uv](https://img.shields.io/badge/uv-✓-DEB887)
 
 ## Acknowledgments
 
