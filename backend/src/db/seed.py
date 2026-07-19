@@ -13,7 +13,7 @@ from src.users.models import User
 
 
 def _get_alembic_cfg() -> Config:
-    ini_path = Path(__file__).resolve().parent.parent / "alembic.ini"
+    ini_path = Path(__file__).resolve().parent.parent.parent / "alembic.ini"
     cfg = Config(str(ini_path))
     db_url = os.getenv("DATABASE_URL", "")
     if db_url:
