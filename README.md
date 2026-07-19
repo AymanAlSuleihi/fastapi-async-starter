@@ -60,9 +60,22 @@ backend/src/
 
 ```bash
 make lint     # Ruff check
+make fix      # Ruff fix
+make format   # Autoformat code
+make type     # Type check
 make test     # Run tests
+make coverage # Run tests with coverage
+make all      # Run all checks
 make dev      # Run dev server
 make migrate  # Generate migration
+make dump     # Dump database
+make restore  # Restore database
+```
+
+### Apply migrations
+
+```bash
+docker compose exec backend alembic upgrade head
 ```
 
 ## Tech Stack
