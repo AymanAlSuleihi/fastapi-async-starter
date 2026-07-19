@@ -32,9 +32,7 @@ class TestItemsCRUD:
         assert response.json()["name"] == "Get Me"
 
     async def test_get_item_not_found(self, client):
-        response = await client.get(
-            "/api/v1/items/00000000-0000-0000-0000-000000000000"
-        )
+        response = await client.get("/api/v1/items/00000000-0000-0000-0000-000000000000")
         assert response.status_code == 404
 
     async def test_update_item(self, client):

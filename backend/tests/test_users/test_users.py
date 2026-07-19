@@ -126,9 +126,7 @@ class TestUserCRUD:
             },
         )
         user_id = create_resp.json()["id"]
-        response = await client.delete(
-            f"/api/v1/users/{user_id}", headers=admin_headers
-        )
+        response = await client.delete(f"/api/v1/users/{user_id}", headers=admin_headers)
         assert response.status_code == 204
         list_resp = await client.get("/api/v1/users", headers=admin_headers)
         emails = [u["email"] for u in list_resp.json()]

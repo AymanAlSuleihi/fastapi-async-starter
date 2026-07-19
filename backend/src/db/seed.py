@@ -31,9 +31,7 @@ async def run_migrations() -> None:
 async def seed_superuser() -> None:
     """Create the initial admin user if one doesn't already exist."""
     async with SessionFactory() as db:
-        existing = await db.scalar(
-            select(User).where(User.email == settings.SUPERUSER_EMAIL)
-        )
+        existing = await db.scalar(select(User).where(User.email == settings.SUPERUSER_EMAIL))
         if not existing:
             admin = User(
                 email=settings.SUPERUSER_EMAIL,

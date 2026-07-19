@@ -9,6 +9,4 @@ class UserNotFound(NotFoundException):
 
 class UserAlreadyExists(ConflictException):
     def __init__(self):
-        super().__init__(
-            detail="A user with this email already exists", code="USER_ALREADY_EXISTS"
-        )
+        super().__init__(detail="A user with this email already exists", code="USER_ALREADY_EXISTS")
