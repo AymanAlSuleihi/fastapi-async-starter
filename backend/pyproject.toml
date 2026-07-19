@@ -1,0 +1,54 @@
+[project]
+name = "fastapi-starter"
+version = "0.1.0"
+description = "FastAPI Async Starter - Template for FastAPI projects."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.138.1",
+    "sqlalchemy[asyncio]>=2.0",
+    "asyncpg>=0.30",
+    "alembic>=1.13",
+    "pydantic-settings>=2.4",
+    "pyjwt>=2.9",
+    "passlib[bcrypt]>=1.7",
+    "httpx>=0.27",
+    "python-multipart>=0.0.12",
+    "taskiq>=0.11",
+    "taskiq-valkey @ git+https://github.com/taskiq-python/taskiq-valkey",
+    "structlog>=24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+]
+
+[tool.fastapi]
+entrypoint = "src.main:app"
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+exclude = [".venv/"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "C4"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing"
+
+[dependency-groups]
+dev = [
+    "pytest-asyncio>=1.4.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.20",
+    "ty>=0.0.55",
+]

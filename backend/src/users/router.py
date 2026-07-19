@@ -1,0 +1,33 @@
+from fastapi import APIRouter, status
+
+from src.users.dependencies import CurrentUserDep, UserServiceDep
+from src.users.schemas import LoginRequest, UserCreate, UserRead, UserUpdate
+
+router = APIRouter(prefix="/users", tags=["users"])
+
+
+@router.post("/login")
+async def login(data: LoginRequest, service: UserServiceDep):
+    return await service.login(data)
+
+
+@router.get("", response_model=list[UserRead])
+async def list_users(service: UserServiceDep, _current_user: CurrentUserDep):
+    return await service.list_users()
+
+
+@router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+async def create_user(data: UserCreate, service: UserServiceDep, _current_user: CurrentUserDep):
+    return await service.create_user(data)
+
+
+@router.patch("/{user_id}", response_model=UserRead)
+async def update_user(
+    user_id: str, data: UserUpdate, service: UserServiceDep, _current_user: CurrentUserDep
+):
+    return await service.update_user(user_id, data)
+
+
+@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: str, service: UserServiceDep, _current_user: CurrentUserDep):
+    await service.delete_user(user_id)
