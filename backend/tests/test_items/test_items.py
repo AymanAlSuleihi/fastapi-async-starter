@@ -6,9 +6,10 @@ class TestItemsCRUD:
         assert data["items"] == []
         assert data["total"] == 0
 
-    async def test_create_item(self, client):
+    async def test_create_item(self, client, admin_headers):
         response = await client.post(
             "/api/v1/items",
+            headers=admin_headers,
             json={"name": "Test Item", "description": "A test item", "price": 9.99},
         )
         assert response.status_code == 201
@@ -20,9 +21,17 @@ class TestItemsCRUD:
         assert "id" in data
         assert "created_at" in data
 
-    async def test_get_item(self, client):
+    async def test_create_item_requires_auth(self, client):
+        response = await client.post(
+            "/api/v1/items",
+            json={"name": "Unauthorized"},
+        )
+        assert response.status_code == 403
+
+    async def test_get_item(self, client, admin_headers):
         create_resp = await client.post(
             "/api/v1/items",
+            headers=admin_headers,
             json={"name": "Get Me", "price": 5.00},
         )
         item_id = create_resp.json()["id"]
@@ -35,15 +44,17 @@ class TestItemsCRUD:
         response = await client.get("/api/v1/items/00000000-0000-0000-0000-000000000000")
         assert response.status_code == 404
 
-    async def test_update_item(self, client):
+    async def test_update_item(self, client, admin_headers):
         create_resp = await client.post(
             "/api/v1/items",
+            headers=admin_headers,
             json={"name": "Original", "price": 10.00},
         )
         item_id = create_resp.json()["id"]
 
         response = await client.patch(
             f"/api/v1/items/{item_id}",
+            headers=admin_headers,
             json={"name": "Updated", "price": 20.00},
         )
         assert response.status_code == 200
@@ -51,24 +62,25 @@ class TestItemsCRUD:
         assert data["name"] == "Updated"
         assert data["price"] == 20.00
 
-    async def test_delete_item(self, client):
+    async def test_delete_item(self, client, admin_headers):
         create_resp = await client.post(
             "/api/v1/items",
+            headers=admin_headers,
             json={"name": "Delete Me"},
         )
         item_id = create_resp.json()["id"]
 
-        response = await client.delete(f"/api/v1/items/{item_id}")
+        response = await client.delete(f"/api/v1/items/{item_id}", headers=admin_headers)
         assert response.status_code == 204
 
-        # Verify deleted
         get_resp = await client.get(f"/api/v1/items/{item_id}")
         assert get_resp.status_code == 404
 
-    async def test_list_items_pagination(self, client):
+    async def test_list_items_pagination(self, client, admin_headers):
         for i in range(5):
             await client.post(
                 "/api/v1/items",
+                headers=admin_headers,
                 json={"name": f"Item {i}"},
             )
 
@@ -78,9 +90,10 @@ class TestItemsCRUD:
         assert len(data["items"]) == 2
         assert data["total"] == 5
 
-    async def test_create_item_minimal(self, client):
+    async def test_create_item_minimal(self, client, admin_headers):
         response = await client.post(
             "/api/v1/items",
+            headers=admin_headers,
             json={"name": "Minimal"},
         )
         assert response.status_code == 201

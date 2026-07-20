@@ -2,6 +2,7 @@ from fastapi import APIRouter, Query, status
 
 from src.modules.items.dependencies import ItemServiceDep, ValidItemIdDep
 from src.modules.items.schemas import ItemCreate, ItemList, ItemRead, ItemUpdate
+from src.users.dependencies import CurrentUserDep
 
 router = APIRouter(prefix="/items", tags=["items"])
 
@@ -22,7 +23,7 @@ async def get_item(item: ValidItemIdDep):
 
 
 @router.post("", response_model=ItemRead, status_code=status.HTTP_201_CREATED)
-async def create_item(data: ItemCreate, service: ItemServiceDep):
+async def create_item(data: ItemCreate, service: ItemServiceDep, _user: CurrentUserDep):
     return await service.create(data)
 
 
@@ -31,6 +32,7 @@ async def update_item(
     data: ItemUpdate,
     service: ItemServiceDep,
     item: ValidItemIdDep,
+    _user: CurrentUserDep,
 ):
     return await service.update(item.id, data)
 
@@ -39,5 +41,6 @@ async def update_item(
 async def delete_item(
     service: ItemServiceDep,
     item: ValidItemIdDep,
+    _user: CurrentUserDep,
 ):
     await service.delete(item.id)
