@@ -12,6 +12,20 @@ class TestUserAuth:
         data = response.json()
         assert data["code"] == "INVALID_CREDENTIALS"
 
+    async def test_get_me(self, client, admin_headers):
+        response = await client.get("/api/v1/users/me", headers=admin_headers)
+        assert response.status_code == 200
+        assert response.json()["email"] == "admin@example.com"
+
+    async def test_update_me(self, client, admin_headers):
+        response = await client.patch(
+            "/api/v1/users/me",
+            headers=admin_headers,
+            json={"first_name": "Updated"},
+        )
+        assert response.status_code == 200
+        assert response.json()["first_name"] == "Updated"
+
     async def test_list_users_requires_auth(self, client):
         response = await client.get("/api/v1/users")
         assert response.status_code == 403
