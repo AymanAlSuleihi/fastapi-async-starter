@@ -1,6 +1,6 @@
 # FastAPI Async Starter
 
-[![CI](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions/workflows/ci.yml)
+[![CI](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions/workflows/ci.yml)[![coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AymanAlSuleihi/<gist-id>/raw/coverage.json)](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions)
 
 Modular asynchronous FastAPI starter project with all the basics for building a scalable and maintainable web application with a PostgreSQL database, background task processing, and JWT authentication.
 

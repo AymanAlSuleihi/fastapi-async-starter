@@ -37,10 +37,23 @@ jobs:
         run: cd backend && uv run ruff check .
 
       - name: Test
-        run: cd backend && uv run pytest -x -q --cov=src --cov-report=term-missing
+        run: cd backend && uv run pytest -x -q --cov=src --cov-report=term-missing --cov-report=json
         env:
           DATABASE_URL: postgresql+asyncpg://app:app@localhost:5432/app
           TEST_DATABASE_URL: postgresql+asyncpg://app:app@localhost:5432/app_test
+
+      - name: Coverage badge
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd backend
+          COV=$(python -c "import json; d=json.load(open('coverage.json')); print(f'{d[\"totals\"][\"percent_covered\"]:.0f}%')")
+          echo "{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"$COV\",\"color\":\"green\"}" > coverage-shield.json
+      - uses: exuanbo/actions-deploy-gist@v1
+        if: github.ref == 'refs/heads/main'
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: ${{ secrets.GIST_ID }}
+          file_path: coverage.json
 
   build:
     runs-on: ubuntu-latest
