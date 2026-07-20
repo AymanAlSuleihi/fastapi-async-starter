@@ -17,9 +17,7 @@ async def get_me(current_user: CurrentUserDep):
 
 
 @router.patch("/me", response_model=UserRead)
-async def update_me(
-    data: UserUpdate, current_user: CurrentUserDep, service: UserServiceDep
-):
+async def update_me(data: UserUpdate, current_user: CurrentUserDep, service: UserServiceDep):
     return await service.update_user(str(current_user.id), data)
 
 
