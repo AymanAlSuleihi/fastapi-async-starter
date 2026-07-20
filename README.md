@@ -1,5 +1,7 @@
 # FastAPI Async Starter
 
+[![CI](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/AymanAlSuleihi/fastapi-async-starter/actions/workflows/ci.yml)
+
 Modular asynchronous FastAPI starter project with all the basics for building a scalable and maintainable web application with a PostgreSQL database, background task processing, and JWT authentication.
 
 ## Tech
