@@ -26,6 +26,13 @@ class Settings(BaseSettings):
     LOG_FORMAT: str = "console"  # "console" or "json"
     LOG_DIR: str = "logs"
 
+    # Email skips sending if SMTP_HOST is empty
+    SMTP_HOST: str = ""
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    EMAIL_FROM: str = "app@example.com"
+
 
 settings = Settings()
 
