@@ -30,7 +30,7 @@ async def get_current_user(
         raise ForbiddenException(detail="Authentication required")
 
     user = await db.scalar(select(User).where(User.id == user_id))
-    if not user:
+    if not user or not user.is_active:
         raise ForbiddenException(detail="Authentication required")
     return user
 
