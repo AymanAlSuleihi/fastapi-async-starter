@@ -193,3 +193,27 @@ class TestUserCRUD:
         )
         assert response.status_code == 400
         assert response.json()["code"] == "INVALID_CREDENTIALS"
+
+
+class TestErrorHandlers:
+    async def test_unhandled_exception_returns_500(self):
+        """A plain Exception (not AppException) triggers the unhandled handler → 500."""
+        from fastapi import FastAPI
+        from starlette.testclient import TestClient
+
+        from src.extensions.error_handlers import register_error_handlers
+
+        app = FastAPI()
+        register_error_handlers(app)
+
+        @app.get("/boom")
+        async def boom():
+            raise Exception("unexpected error")
+
+        # TestClient handles ServerErrorMiddleware's re-raised exception properly
+        with TestClient(app, raise_server_exceptions=False) as client:
+            response = client.get("/boom")
+            assert response.status_code == 500
+            data = response.json()
+            assert data["detail"] == "Internal server error"
+            assert "code" not in data
