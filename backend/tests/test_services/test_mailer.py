@@ -26,15 +26,17 @@ class TestMailer:
             mock_server = MagicMock()
             mock_smtp_class.return_value.__enter__.return_value = mock_server
 
-            with patch.object(settings, "SMTP_HOST", "smtp.example.com"):
-                with patch.object(settings, "SMTP_USER", "user"):
-                    with patch.object(settings, "SMTP_PASSWORD", "pass"):
-                        mailer.send(
-                            to="test@example.com",
-                            subject="Hello",
-                            body="<p>World</p>",
-                            html=True,
-                        )
+            with (
+                patch.object(settings, "SMTP_HOST", "smtp.example.com"),
+                patch.object(settings, "SMTP_USER", "user"),
+                patch.object(settings, "SMTP_PASSWORD", "pass"),
+            ):
+                mailer.send(
+                    to="test@example.com",
+                    subject="Hello",
+                    body="<p>World</p>",
+                    html=True,
+                )
 
             mock_smtp_class.assert_called_once_with("smtp.example.com", 587, timeout=10)
             mock_server.starttls.assert_called_once()
@@ -54,9 +56,11 @@ class TestMailer:
             mock_server = MagicMock()
             mock_smtp_class.return_value.__enter__.return_value = mock_server
 
-            with patch.object(settings, "SMTP_HOST", "smtp.example.com"):
-                with patch.object(settings, "SMTP_USER", ""):
-                    mailer.send(to="test@example.com", subject="Hello", body="World")
+            with (
+                patch.object(settings, "SMTP_HOST", "smtp.example.com"),
+                patch.object(settings, "SMTP_USER", ""),
+            ):
+                mailer.send(to="test@example.com", subject="Hello", body="World")
 
             mock_smtp_class.assert_called_once()
             mock_server.starttls.assert_not_called()
