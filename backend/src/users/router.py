@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 
-from src.users.dependencies import CurrentUserDep, UserServiceDep
+from src.users.dependencies import CurrentAdminDep, CurrentUserDep, UserServiceDep
 from src.users.schemas import LoginRequest, UserCreate, UserRead, UserUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -12,18 +12,18 @@ async def login(data: LoginRequest, service: UserServiceDep):
 
 
 @router.get("", response_model=list[UserRead])
-async def list_users(service: UserServiceDep, _current_user: CurrentUserDep):
+async def list_users(service: UserServiceDep, _user: CurrentUserDep):
     return await service.list_users()
 
 
 @router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
-async def create_user(data: UserCreate, service: UserServiceDep, _current_user: CurrentUserDep):
+async def create_user(data: UserCreate, service: UserServiceDep, _admin: CurrentAdminDep):
     return await service.create_user(data)
 
 
 @router.patch("/{user_id}", response_model=UserRead)
 async def update_user(
-    user_id: str, data: UserUpdate, service: UserServiceDep, _current_user: CurrentUserDep
+    user_id: str, data: UserUpdate, service: UserServiceDep, _admin: CurrentAdminDep
 ):
     return await service.update_user(user_id, data)
 

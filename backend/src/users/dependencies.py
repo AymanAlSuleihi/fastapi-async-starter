@@ -38,6 +38,15 @@ async def get_current_user(
 CurrentUserDep = Annotated[User, Depends(get_current_user)]
 
 
+async def get_current_admin(current_user: CurrentUserDep) -> User:
+    if not current_user.is_admin:
+        raise ForbiddenException(detail="Admin access required")
+    return current_user
+
+
+CurrentAdminDep = Annotated[User, Depends(get_current_admin)]
+
+
 async def get_user_service(db: DbDep) -> UserService:
     return UserService(db)
 

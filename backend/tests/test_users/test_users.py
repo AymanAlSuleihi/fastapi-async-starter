@@ -40,6 +40,39 @@ class TestUserCRUD:
         assert data["email"] == "test@example.com"
         assert "id" in data
 
+    async def test_create_user_requires_admin(self, client, admin_headers):
+        # Create a non-admin user first
+        await client.post(
+            "/api/v1/users",
+            headers=admin_headers,
+            json={
+                "email": "regular@example.com",
+                "password": "testpass123",
+                "first_name": "Regular",
+                "last_name": "User",
+                "is_admin": False,
+            },
+        )
+        # Login as regular user
+        login_resp = await client.post(
+            "/api/v1/users/login",
+            json={"email": "regular@example.com", "password": "testpass123"},
+        )
+        regular_headers = {"Authorization": f"Bearer {login_resp.json()['access_token']}"}
+
+        # Regular user cannot create users
+        response = await client.post(
+            "/api/v1/users",
+            headers=regular_headers,
+            json={
+                "email": "nope@example.com",
+                "password": "testpass123",
+                "first_name": "Nope",
+                "last_name": "User",
+            },
+        )
+        assert response.status_code == 403
+
     async def test_create_user_duplicate_email(self, client, admin_headers):
         await client.post(
             "/api/v1/users",
