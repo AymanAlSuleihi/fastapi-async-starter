@@ -47,13 +47,13 @@ jobs:
         run: |
           cd backend
           COV=$(python -c "import json; d=json.load(open('coverage.json')); print(f'{d[\"totals\"][\"percent_covered\"]:.0f}%')")
-          echo "{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"$COV\",\"color\":\"green\"}" > coverage-shield.json
+          echo "{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"$COV\",\"color\":\"green\"}" > ../coverage-shield.json
       - uses: exuanbo/actions-deploy-gist@v1
         if: github.ref == 'refs/heads/main'
         with:
           token: ${{ secrets.GIST_TOKEN }}
           gist_id: ${{ secrets.GIST_ID }}
-          file_path: coverage.json
+          file_path: coverage-shield.json
 
   build:
     runs-on: ubuntu-latest
