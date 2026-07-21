@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 from src.core.config import settings
-from src.services.mailer import Mailer
+from src.infrastructure.mailer import Mailer
 
 
 class TestMailer:
@@ -9,7 +9,7 @@ class TestMailer:
         """When SMTP_HOST is empty, send() logs and returns without connecting."""
         mailer = Mailer()
         # Default settings.SMTP_HOST is ""; no SMTP call should happen
-        with patch("src.services.mailer.logger") as mock_logger:
+        with patch("src.infrastructure.mailer.logger") as mock_logger:
             mailer.send(to="test@example.com", subject="Hello", body="World")
             mock_logger.info.assert_called_once_with(
                 "email_skipped",
@@ -22,7 +22,7 @@ class TestMailer:
         """When SMTP_HOST is set, send() connects and sends the email."""
         mailer = Mailer()
 
-        with patch("src.services.mailer.smtplib.SMTP") as mock_smtp_class:
+        with patch("src.infrastructure.mailer.smtplib.SMTP") as mock_smtp_class:
             mock_server = MagicMock()
             mock_smtp_class.return_value.__enter__.return_value = mock_server
 
@@ -52,7 +52,7 @@ class TestMailer:
         """When SMTP_USER is empty, no auth/starttls is performed."""
         mailer = Mailer()
 
-        with patch("src.services.mailer.smtplib.SMTP") as mock_smtp_class:
+        with patch("src.infrastructure.mailer.smtplib.SMTP") as mock_smtp_class:
             mock_server = MagicMock()
             mock_smtp_class.return_value.__enter__.return_value = mock_server
 
