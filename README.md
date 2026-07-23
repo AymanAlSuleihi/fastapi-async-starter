@@ -82,6 +82,19 @@ src/
 └── main.py              # app factory
 ```
 
+Each module generally follows this convention, although other files may be added as needed (e.g., `config.py`, `utils.py`)
+
+```
+modules/<name>/
+├── __init__.py
+├── models.py            # SQLAlchemy model
+├── schemas.py           # Pydantic request/response schemas
+├── service.py           # Business logic (db queries, mutations)
+├── dependencies.py      # FastAPI dependency injection (e.g. valid_<name>_id)
+├── exceptions.py        # Module-specific exceptions
+└── router.py            # Route definitions
+```
+
 ## Adding a New Module
 
 1. Copy `src/modules/items/` to `src/modules/<name>/`
