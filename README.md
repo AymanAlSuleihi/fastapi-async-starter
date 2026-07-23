@@ -71,7 +71,7 @@ backend/src/
 ├── core/                # config, constants, exceptions
 ├── db/                  # engine, models, seed
 ├── extensions/          # logs, middleware, error handlers
-├── services/            # infrastructure clients (mailer, storage, etc.)
+├── infrastructure/      # infrastructure clients (mailer, storage, etc.)
 ├── modules/             # Your app domains go here
 │   └── items/           # example CRUD module
 ├── auth/                # JWT utilities
