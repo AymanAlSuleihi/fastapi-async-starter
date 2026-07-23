@@ -67,7 +67,7 @@ API at `http://localhost:8000`, OpenAPI docs at `http://localhost:8000/docs`.
 ## Project Structure
 
 ```
-backend/src/
+src/
 ├── core/                # config, constants, exceptions
 ├── db/                  # engine, models, seed
 ├── extensions/          # logs, middleware, error handlers
@@ -87,11 +87,11 @@ backend/src/
 1. Copy `src/modules/items/` to `src/modules/<name>/`
 2. Register in `src/router.py`
 3. Import model in `alembic/env.py`
-4. Generate migration: `cd backend && make migrate`
+4. Generate migration: `make migrate`
 
 ## Commands
 
-All commands assume you are in the `backend/` directory.
+All commands assume you are in the repo root.
 
 ```bash
 make lint     # Ruff check

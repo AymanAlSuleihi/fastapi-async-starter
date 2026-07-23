@@ -26,14 +26,14 @@ migrate:
 	uv run alembic revision --autogenerate -m "$$msg"
 
 dump:
-	@mkdir -p ../backups
-	docker compose -f ../compose.yml exec -T db \
+	@mkdir -p backups
+	docker compose -f compose.yml exec -T db \
 		pg_dump -U app -Fc app \
-		| gzip > ../backups/dump_$$(date +%Y%m%d_%H%M%S).tar.gz
+		| gzip > backups/dump_$$(date +%Y%m%d_%H%M%S).tar.gz
 
 restore:
 	@test -n "$(file)" || (echo "Usage: make restore file=backups/dump_xxx.tar.gz" && exit 1)
-	gunzip -c $(file) | docker compose -f ../compose.yml exec -T db \
+	gunzip -c $(file) | docker compose -f compose.yml exec -T db \
 		pg_restore -U app -d app --clean --if-exists
 
 all: lint type test

@@ -25,7 +25,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: .
     env_file:
       - .env
     depends_on:
@@ -42,7 +42,7 @@ services:
 
   worker:
     build:
-      context: ./backend
+      context: .
     env_file:
       - .env
     depends_on:

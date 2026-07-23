@@ -9,16 +9,16 @@ services:
     env_file:
       - .env.local
     volumes:
-      - ./backend/src:/app/src
-      - ./backend/alembic:/app/alembic
-      - ./backend/alembic.ini:/app/alembic.ini
+      - ./src:/app/src
+      - ./alembic:/app/alembic
+      - ./alembic.ini:/app/alembic.ini
     command: fastapi dev src/main.py --host 0.0.0.0 --reload
 
   worker:
     env_file:
       - .env.local
     volumes:
-      - ./backend/src:/app/src
-      - ./backend/alembic:/app/alembic
-      - ./backend/alembic.ini:/app/alembic.ini
+      - ./src:/app/src
+      - ./alembic:/app/alembic
+      - ./alembic.ini:/app/alembic.ini
     command: taskiq worker src.workers.settings:broker
