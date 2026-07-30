@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import src.subscribers  # noqa: F401
 from src.core.config import SHOW_DOCS_IN, settings
 from src.db.engine import engine
 from src.db.seed import run_migrations, seed_superuser

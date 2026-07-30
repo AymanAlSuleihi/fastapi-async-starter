@@ -3,6 +3,8 @@ import uuid
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.extensions.hub import hub
+from src.modules.items.events import ItemCreated, ItemDeleted
 from src.modules.items.exceptions import ItemNotFound
 from src.modules.items.models import Item
 from src.modules.items.schemas import ItemCreate, ItemUpdate
@@ -32,6 +34,7 @@ class ItemService:
         self.db.add(item)
         await self.db.commit()
         await self.db.refresh(item)
+        await hub.emit(ItemCreated(item_id=str(item.id), name=item.name))
         return item
 
     async def update(self, item_id: uuid.UUID, data: ItemUpdate) -> Item:
@@ -47,3 +50,4 @@ class ItemService:
         item = await self.get_by_id(item_id)
         await self.db.delete(item)
         await self.db.commit()
+        await hub.emit(ItemDeleted(item_id=str(item.id), name=item.name))
